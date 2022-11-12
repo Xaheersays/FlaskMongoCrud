@@ -33,8 +33,6 @@ def postData():
     name = request.json['name']
     genre = request.json['genre']
     game = request.json['game']
-    print("printing all")
-    print(name,genre,game)
     currentCollection.insert_one({'name': name, 'favGenre': genre, 'favGame': game})
     return jsonify({'name': name, 'genre': genre, 'game': game})
 
