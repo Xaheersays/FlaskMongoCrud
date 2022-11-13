@@ -23,16 +23,16 @@ def retrieveAll():
 @cross_origin()
 def retrieveFromName(name):
     currentCollection = mongo.db.favInfo
-    data = currentCollection.find_one({"name": name})
+    data = currentCollection.find_one({"name": name.lower()})
     return jsonify({'name': data['name'], 'genre': data['favGenre'], 'game': data['favGame']})
 
 
 @app.route('/postData', methods=['POST'])
 def postData():
     currentCollection = mongo.db.favInfo
-    name = request.json['name']
-    genre = request.json['genre']
-    game = request.json['game']
+    name = request.json['name'].lower()
+    genre = request.json['genre'].lower()
+    game = request.json['game'].lower()
     currentCollection.insert_one({'name': name, 'favGenre': genre, 'favGame': game})
     return jsonify({'name': name, 'genre': genre, 'game': game})
 
@@ -40,16 +40,15 @@ def postData():
 @app.route('/deleteData/<name>', methods=['DELETE'])
 def deleteData(name):
     currentCollection = mongo.db.favInfo
-    currentCollection.delete_one({'name': name})
+    currentCollection.delete_one({'name': name.lower()})
     return redirect(url_for('retrieveAll'))
 
-
-@app.route('/update/<name>', methods=['PUT'])
-def updateData(name):
+@app.route('/update/<name>/<tname>', methods = ['PUT'])
+def updateData(name,tname):
     currentCollection = mongo.db.favInfo
-    updatedName = request.json['name']
-    currentCollection.update_one({'name': name}, {"$set": {'name': updatedName}})
+    currentCollection.update_one({'name':name.lower()}, {"$set" : {'name' : tname.lower()}})
     return redirect(url_for('retrieveAll'))
+
 
 
 if __name__ == '__main__':

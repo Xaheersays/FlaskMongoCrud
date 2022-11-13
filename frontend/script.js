@@ -1,3 +1,57 @@
+document.getElementById('DeleteForm').addEventListener('submit', DeleteData)
+
+function DeleteData(e){
+    e.preventDefault()
+    let name = document.getElementById('dname').value;
+        console.log(name)
+
+       fetch(`http://localhost:5000/deleteData/${name}`, {
+        method : 'DELETE',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({
+            'name' : name,
+        })
+    })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+      console.log("last")
+
+}
+
+document.getElementById('Updated').addEventListener('submit', UpdateData)
+console.log(document.getElementById('Updated'))
+
+
+function  UpdateData(e){
+e.preventDefault()
+
+    let uname = document.getElementById('uname').value;
+        console.log(uname)
+    let tname = document.getElementById('tname').value;
+        console.log(tname)
+
+       fetch(`http://localhost:5000/update/${uname}/${tname}`, {
+        method : 'PUT',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({
+            'name' : uname,
+        })
+    })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+      console.log("last")
+
+}
+
+
+
+
+
+
 document.getElementById('formData').addEventListener('submit', retrieveName)
 
 function retrieveName (e) {
