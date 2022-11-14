@@ -33,6 +33,10 @@ def postData():
     name = request.json['name'].lower()
     genre = request.json['genre'].lower()
     game = request.json['game'].lower()
+    s = currentCollection
+    for i in currentCollection.find():
+        if i['name'] == name:
+            return None
     currentCollection.insert_one({'name': name, 'favGenre': genre, 'favGame': game})
     return jsonify({'name': name, 'genre': genre, 'game': game})
 
